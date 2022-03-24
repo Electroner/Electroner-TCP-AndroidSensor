@@ -1,5 +1,6 @@
 package com.example.sens;
 
+import android.annotation.SuppressLint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,6 +18,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.time.ZonedDateTime;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         Sensor sensor = sensorEvent.sensor;
@@ -92,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             data[8] = sensorEvent.values[2];
         }
 
-        Sdata = data[0]+","+data[1]+","+data[2]+","+data[3]+","+data[4]+","+data[5]+","+data[6]+","+data[7]+","+data[8];
+        Sdata = (data[0]+","+data[1]+","+data[2]+","+data[3]+","+data[4]+","+data[5]+","+data[6]+","+data[7]+","+data[8]+","+ZonedDateTime.now().toInstant().toEpochMilli());
         textView.setText((data[0]+"   "+data[1]+"   "+data[2]+"\n"+data[3]+"   "+data[4]+"   "+data[5]+"\n"+data[6]+"   "+data[7]+"   "+data[8]));
 
         if(Conectado){
