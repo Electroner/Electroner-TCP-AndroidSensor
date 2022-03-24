@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Socket sk;
     PrintWriter TCPOutput;
     BufferedReader TCPInput;
-    String ACK;
+    String ACK = "";
 
     float[] data = new float[9];
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         IP_entrada = findViewById(R.id.IP_text);
         textView = findViewById(R.id.text_accelerometer);
         OutputText = findViewById(R.id.Output);
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         Accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    public void SetDirection(View view) throws IOException {
+    public void SetDirection(View view) {
         log("Modo Conectar = true");
         try {
             log(" Socket: " + IP_entrada.getText().toString() + ":" + 8080);
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             log("Conectado a IP:"+IP_entrada.getText().toString());
             TCPOutput = new PrintWriter(new OutputStreamWriter(sk.getOutputStream()), true);
             log("Conectado con exito");
+            TCPInput = new BufferedReader(new InputStreamReader(sk.getInputStream()));
             Conectado = true;
         } catch (IOException e) {
             e.printStackTrace();
