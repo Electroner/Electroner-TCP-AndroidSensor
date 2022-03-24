@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Send(Sdata);
             do{
                 Read();
-            }while(!ACK.equals("ACTUATE"));
+            }while(!ACK.equals("ACKDAT"));
         }
         if(Cerrar){
             try {
