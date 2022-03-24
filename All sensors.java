@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -28,9 +29,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     boolean Cerrar;
     boolean Conectado;
-
     Socket sk;
     PrintWriter TCPOutput;
+    BufferedReader TCPInput;
+    String ACK;
 
     float[] data = new float[9];
 
@@ -62,6 +64,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         TCPOutput.println(_DATA);
     }
 
+    private void Read(){
+        try {
+            ACK = TCPInput.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         Sensor sensor = sensorEvent.sensor;
@@ -85,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if(Conectado){
             Send(Sdata);
+            do{
+                Read();
+            }while(!ACK.equals("ACTUATE"));
         }
         if(Cerrar){
             try {
